@@ -1,10 +1,23 @@
 <script>
+	import axios from 'axios';
+	import { onMount } from 'svelte';
+
+	let articles = [];
+	onMount(async () => {
+		const { data } = await axios.get('https://conduit.productionready.io/api/articles?limit=10&offset=0');
+		articles = data.articles;
+	});
+
 	export let name;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+<h1>{name}</h1>
+<ul>
+  {#each articles as article}
+		<li>{article.title}</li>
+	{/each}
+</ul>
 </main>
 
 <style>
@@ -18,7 +31,7 @@
 	h1 {
 		color: #ff3e00;
 		text-transform: uppercase;
-		font-size: 4em;
+		font-size: 24px;
 		font-weight: 100;
 	}
 
